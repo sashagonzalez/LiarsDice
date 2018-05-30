@@ -86,47 +86,47 @@
             android:text="Call Bluff" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentTop="true"
+    android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Players: 1"
-                android:textColor="#FFFFFF"
-                android:textSize="20dp" />
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Players: 1"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp" />
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Die in Game: 5"
-                android:textColor="#FFFFFF"
-                android:textSize="20dp" />
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Die in Game: 5"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp" />
 
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Player's Turn: Sasha"
-                android:textColor="#FFFFFF"
-                android:textSize="20dp" />
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Player's Turn: Sasha"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp" />
 
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Next Player: Sasha"
-                android:textColor="#FFFFFF"
-                android:textSize="20dp" />
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Next Player: Sasha"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp" />
 
 
-        </LinearLayout>
-    </RelativeLayout>
+</LinearLayout>
+</RelativeLayout>
 
     <LinearLayout
         android:layout_below="@+id/frame"
