@@ -26,6 +26,7 @@ public class DiceShuffle extends AppCompatActivity {
         dice3 = findViewById(R.id.imageView4);
         dice4 = findViewById(R.id.imageView3);
         dice5 = findViewById(R.id.imageView2);
+
         Button btn = (Button) findViewById(R.id.button2);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,20 +43,17 @@ public class DiceShuffle extends AppCompatActivity {
                 dice1.setImageResource(R.drawable.die1);
                 break;
             case 2:
-                dice1.setImageResource(R.drawable.die1);
+                dice2.setImageResource(R.drawable.die1);
                 break;
             case 3:
-                dice1.setImageResource(R.drawable.die1);
+                dice3.setImageResource(R.drawable.die1);
                 break;
             case 4:
-                dice1.setImageResource(R.drawable.die1);
+                dice4.setImageResource(R.drawable.die1);
                 break;
             case 5:
-                dice1.setImageResource(R.drawable.die1);
-                break;
-            case 6:
-                dice1.setImageResource(R.drawable.die1);
-                break;
+                dice5.setImageResource(R.drawable.die1);
+                break;\k
         }
 
     }

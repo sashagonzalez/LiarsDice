@@ -8,3 +8,5 @@
 /build
 /captures
 .externalNativeBuild
+debug.log 
+.idea/misc.xml 
