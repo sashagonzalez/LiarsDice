@@ -9,22 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-
         <activity
-            android:name=".MainActivity"
-            android:label="LiarsDice">
+            android:name=".GameActivity"
+            android:label="LiarsDice"></activity>
+        <activity
+            android:name=".DiceShuffle"
+            android:label="DiceShuffle"></activity>
+        <activity android:name=".StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".DiceShuffle"
-            android:label="DiceShuffle">
-        </activity>
+        <activity android:name=".LobbyActivity"></activity>
     </application>
 
 </manifest>

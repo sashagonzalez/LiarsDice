@@ -53,7 +53,7 @@ public class DiceShuffle extends AppCompatActivity {
                 break;
             case 5:
                 dice5.setImageResource(R.drawable.die1);
-                break;\k
+                break;
         }
 
     }

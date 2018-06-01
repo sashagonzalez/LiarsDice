@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="#076324">
+    tools:context=".GameActivity"
+    android:background="@color/backgroundGreen">
 
     <RelativeLayout
         android:id="@+id/frame"
@@ -22,7 +22,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="143dp"
             android:text="Current Bid:3 Fives's"
-            android:textColor="#FF0000"
+            android:textColor="@color/textRed"
             android:textSize="30dp" />
 
         <TextView
@@ -33,7 +33,7 @@
             android:layout_alignStart="@+id/textView8"
             android:layout_marginBottom="148dp"
             android:text="Your Bid: "
-            android:textColor="#FF0000"
+            android:textColor="@color/textRed"
             android:textSize="30dp" />
 
         <EditText
@@ -43,7 +43,7 @@
             android:layout_alignTop="@+id/textView9"
             android:layout_toEndOf="@+id/textView9"
             android:ems="10"
-            android:textColor="#FF0000"
+            android:textColor="@color/textRed"
             android:textSize="30dp"
             android:inputType="number" />
 
@@ -54,7 +54,7 @@
             android:layout_alignTop="@+id/textView9"
             android:layout_toEndOf="@+id/editText"
             android:ems="10"
-            android:textColor="#FF0000"
+            android:textColor="@color/textRed"
             android:textSize="30dp"
             android:inputType="number" />
 
@@ -64,7 +64,7 @@
             android:layout_height="40dp"
             android:layout_alignTop="@+id/textView9"
             android:layout_toEndOf="@+id/editText3"
-            android:textColor="#FF0000"
+            android:textColor="@color/textRed"
             android:textSize="30dp"
             android:text="'s" />
 
@@ -85,47 +85,55 @@
             android:layout_toEndOf="@+id/textView9"
             android:text="Call Bluff" />
 
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="Roll" />
+
         <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_alignParentStart="true"
-    android:layout_alignParentTop="true"
-    android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Players: 1"
-        android:textColor="#FFFFFF"
-        android:textSize="20dp" />
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Players: 1"
+                android:textColor="#FFFFFF"
+                android:textSize="20dp" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Die in Game: 5"
-        android:textColor="#FFFFFF"
-        android:textSize="20dp" />
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Die in Game: 5"
+                android:textColor="#FFFFFF"
+                android:textSize="20dp" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Player's Turn: Sasha"
-        android:textColor="#FFFFFF"
-        android:textSize="20dp" />
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Player's Turn: Sasha"
+                android:textColor="#FFFFFF"
+                android:textSize="20dp" />
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Next Player: Sasha"
-        android:textColor="#FFFFFF"
-        android:textSize="20dp" />
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Next Player: Sasha"
+                android:textColor="#FFFFFF"
+                android:textSize="20dp" />
 
 
-</LinearLayout>
+        </LinearLayout>
 </RelativeLayout>
 
     <LinearLayout
