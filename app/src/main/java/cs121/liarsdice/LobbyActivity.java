@@ -1,6 +1,8 @@
 package cs121.liarsdice;
 
-import android.bluetooth.BluetoothAdapter;
+import android.net.wifi.WpsInfo;
+import android.net.wifi.p2p.WifiP2pConfig;
+import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.content.IntentFilter;
 import android.net.wifi.p2p.WifiP2pManager.Channel;
+import android.net.wifi.p2p.WifiP2pManager.ActionListener;
 import android.widget.Toast;
 import android.content.Context;
 
@@ -21,17 +24,10 @@ public class LobbyActivity extends AppCompatActivity {
     DiceReceiver receiver;
     boolean isHost;
 
-
-    private BluetoothAdapter BA;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
-
-
-
 
         // Indicates a change in the Wi-Fi P2P status.
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION);
@@ -42,31 +38,59 @@ public class LobbyActivity extends AppCompatActivity {
         // Indicates this device's details have changed.
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION);
 
-        myWifi = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
-        myChannel = myWifi.initialize(this, getMainLooper(), null);
-
         TextView t = findViewById(R.id.textView4);
-        if(myChannel == null){
-            t.setText("fail");
-        }
-        else{
-            t.setText("good");
-        }
-
-        /*
-        String asdf = Integer.toString(getIntent().getIntExtra(WifiP2pManager.EXTRA_WIFI_STATE, -1));
-
-
-        if (getIntent().getIntExtra(WifiP2pManager.EXTRA_WIFI_STATE, -1) == WifiP2pManager.WIFI_P2P_STATE_ENABLED) {
+        myWifi = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
+        try {
             myChannel = myWifi.initialize(this, getMainLooper(), null);
-                               t.setText("worked");
-            // Wifi P2P is enabled
-        } else {
-            // Wi-Fi P2P is not enabled
-             t.setText("fail");
-        }
+            receiver = new DiceReceiver(myWifi, myChannel, this);
+            t.setVisibility(View.INVISIBLE);
 
-        
+            if(isHost)
+                MakeLobby();
+            else
+                JoinLobby();
+        }
+        catch(Exception e) {
+            // Wifi direct wasn't enabled(and cannot be enabled by emulators)
+            t.setText("Please enable WifiDirect and try again.");
+        }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        // Register the broadcast receiver
+        receiver = new DiceReceiver(myWifi, myChannel, this);
+        registerReceiver(receiver, intentFilter);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        // Unregister the broadcast receiver
+        unregisterReceiver(receiver);
+    }
+
+    void MakeLobby(){
+        myWifi.createGroup(myChannel, new WifiP2pManager.ActionListener() {
+            @Override
+            public void onSuccess() {
+                // Device is ready to accept incoming connections from peers.
+                Toast.makeText(LobbyActivity.this, "Connection has been set up.",
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(int reason) {
+                Toast.makeText(LobbyActivity.this, "P2P group creation failed. Retry.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    void JoinLobby(){
         // Start finding peers
         myWifi.discoverPeers(myChannel, new WifiP2pManager.ActionListener() {
 
@@ -76,6 +100,8 @@ public class LobbyActivity extends AppCompatActivity {
                 // No services have actually been discovered yet, so this method
                 // can often be left blank. Code for peer discovery goes in the
                 // onReceive method, detailed below.
+
+                ConnectToPeer();
             }
 
             @Override
@@ -87,37 +113,32 @@ public class LobbyActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
             }
         });
-*/
     }
 
-    @Override
-    public void onResume(){
-        super.onResume();
+    void ConnectToPeer(){
+        // Picking the first device found on the network.
+        WifiP2pDevice device = receiver.peers.get(0);
 
-        /*
-        isHost = getIntent().getExtras().getBoolean("isHost");
-        TextView t = findViewById(R.id.textView4);
-        if(isHost)
-            t.setText("tru");
-        else
-            t.setText("trun't");
+        WifiP2pConfig config = new WifiP2pConfig();
+        config.deviceAddress = device.deviceAddress;
+        config.wps.setup = WpsInfo.PBC;
 
+        myWifi.connect(myChannel, config, new ActionListener() {
+            @Override
+            public void onSuccess() {
+                // WiFiDirectBroadcastReceiver notifies us. Ignore for now.
+                Toast.makeText(LobbyActivity.this, "Connection worked. You should be gook.",
+                        Toast.LENGTH_SHORT).show();
+            }
 
-        // Register the broadcast receiver
-        receiver = new DiceReceiver(myWifi, myChannel, this);
-        registerReceiver(receiver, intentFilter);
-        */
+            @Override
+            public void onFailure(int reason) {
+                Toast.makeText(LobbyActivity.this, "Connect failed. Retry.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
 
-
-
-
-        // Unregister the broadcast receiver
-     //   unregisterReceiver(receiver);
-    }
 
 }

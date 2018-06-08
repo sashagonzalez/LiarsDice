@@ -8,9 +8,13 @@
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="283dp"
+        android:layout_height="154dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="204dp"
         android:text="TextView"
-        tools:layout_editor_absoluteX="130dp"
-        tools:layout_editor_absoluteY="273dp" />
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>
