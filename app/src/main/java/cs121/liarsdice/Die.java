@@ -14,7 +14,7 @@ public class Die {
 
     public void roll(){
         value =  random.nextInt(6) + 1;
-    }
+    } //values 1 thru 6
 
     public int getValue() {
         return value;
