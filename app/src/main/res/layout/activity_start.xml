@@ -41,4 +41,12 @@
         android:text="Liar's Dice"
         android:textColor="@color/textRed"
         android:textSize="70sp" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/searchLobbyBtn"
+        android:layout_centerHorizontal="true"
+        android:text="test game" />
 </RelativeLayout>
