@@ -130,12 +130,14 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
     }
 
     void ConnectToPeer(){
+        /*
         // Picking the first device found on the network.
         WifiP2pDevice device = receiver.peers.get(0);
 
         WifiP2pConfig config = new WifiP2pConfig();
         config.deviceAddress = device.deviceAddress;
         config.wps.setup = WpsInfo.PBC;
+
 
         myWifi.connect(myChannel, config, new ActionListener() {
             @Override
@@ -151,6 +153,7 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
                         Toast.LENGTH_SHORT).show();
             }
         });
+        */
     }
 
 
