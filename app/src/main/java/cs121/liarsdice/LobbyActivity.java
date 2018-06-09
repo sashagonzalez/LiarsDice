@@ -141,7 +141,7 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
             @Override
             public void onSuccess() {
                 // WiFiDirectBroadcastReceiver notifies us. Ignore for now.
-                Toast.makeText(LobbyActivity.this, "Connection worked. You should be gook.",
+                Toast.makeText(LobbyActivity.this, "Successfully connected to a peer. You should be gook.",
                         Toast.LENGTH_SHORT).show();
             }
 
