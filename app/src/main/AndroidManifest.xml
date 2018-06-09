@@ -11,10 +11,10 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".GameActivity"
-            android:label="LiarsDice"></activity>
+            android:label="LiarsDice" />
         <activity
             android:name=".DiceShuffle"
-            android:label="DiceShuffle"></activity>
+            android:label="DiceShuffle" />
         <activity android:name=".StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,7 +22,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LobbyActivity"></activity>
+        <activity android:name=".LobbyActivity" />
+        <activity android:name=".TestGameActivity">
+        </activity>
     </application>
 
 </manifest>

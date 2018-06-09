@@ -1,11 +1,12 @@
 package cs121.liarsdice;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
 //the idea is the lobby activity will create a Game object and fill it with players.
 //then it will pass this object to GameActivity and it will use this to run the game
-public class Game {
+public class Game implements Serializable{
 
     private int numPlayers;
     private ArrayList<Player> players; //will use this arrayList starting from index 1

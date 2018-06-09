@@ -1,8 +1,9 @@
 package cs121.liarsdice;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class Die {
+public class Die implements Serializable{
 
     private int value;
     private Random random;
