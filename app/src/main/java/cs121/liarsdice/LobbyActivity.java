@@ -29,6 +29,8 @@ public class LobbyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
 
+        isHost = (boolean) getIntent().getBooleanExtra("isHost", false);
+
         // Indicates a change in the Wi-Fi P2P status.
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION);
         // Indicates a change in the list of available peers.
@@ -53,6 +55,13 @@ public class LobbyActivity extends AppCompatActivity {
         catch(Exception e) {
             // Wifi direct wasn't enabled(and cannot be enabled by emulators)
             t.setText("Please enable WifiDirect and try again.");
+
+            if(isHost)
+                Toast.makeText(LobbyActivity.this, "Host",
+                        Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(LobbyActivity.this, "Not Host",
+                        Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -74,7 +83,9 @@ public class LobbyActivity extends AppCompatActivity {
     }
 
     void MakeLobby(){
+
         myWifi.createGroup(myChannel, new WifiP2pManager.ActionListener() {
+
             @Override
             public void onSuccess() {
                 // Device is ready to accept incoming connections from peers.
@@ -87,6 +98,7 @@ public class LobbyActivity extends AppCompatActivity {
                 Toast.makeText(LobbyActivity.this, "P2P group creation failed. Retry.",
                         Toast.LENGTH_SHORT).show();
             }
+
         });
     }
 
