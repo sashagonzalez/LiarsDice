@@ -58,7 +58,7 @@ public class DiceReceiver extends BroadcastReceiver {
 
             List<WifiP2pDevice> refreshedPeers = (List<WifiP2pDevice>) peerList.getDeviceList();
             if (!refreshedPeers.equals(peers)) {
-                peers.clear();
+            peers.clear();
                 peers.addAll(refreshedPeers);
 
                 // If an AdapterView is backed by this data, notify it
