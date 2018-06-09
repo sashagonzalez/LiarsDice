@@ -6,4 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".LobbyActivity">
 
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="283dp"
+        android:layout_height="154dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="204dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>
