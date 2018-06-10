@@ -114,8 +114,6 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
                 // No services have actually been discovered yet, so this method
                 // can often be left blank. Code for peer discovery goes in the
                 // onReceive method, detailed below.
-
-                ConnectToPeer();
             }
 
             @Override

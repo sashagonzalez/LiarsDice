@@ -1,6 +1,7 @@
 package cs121.liarsdice;
 
 import android.content.BroadcastReceiver;
+import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
 import android.net.wifi.p2p.WifiP2pManager;
@@ -10,6 +11,7 @@ import android.content.Intent;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
+import android.net.wifi.WpsInfo;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -57,6 +59,7 @@ public class DiceReceiver extends BroadcastReceiver {
         public void onPeersAvailable(WifiP2pDeviceList peerList) {
             System.out.println("how many peers:" + peerList.getDeviceList().size()); //new
 
+            System.out.println(peerList.getDeviceList().size());
             List<WifiP2pDevice> refreshedPeers = new ArrayList<WifiP2pDevice>(peerList.getDeviceList());
 
             if (!refreshedPeers.equals(peers)) {
@@ -73,10 +76,34 @@ public class DiceReceiver extends BroadcastReceiver {
                 // peers connected to the Wi-Fi P2P network.
             }
 
+            if(peers.size() > 0)
+                ConnectToPeer();
+
             System.out.println("Made it to checkpoint.");
         }
     };
 
 
+    void ConnectToPeer() {
 
+        // Picking the first device found on the network.
+        WifiP2pDevice device = peers.get(0);
+
+        WifiP2pConfig config = new WifiP2pConfig();
+        config.deviceAddress = device.deviceAddress;
+        config.wps.setup = WpsInfo.PBC;
+
+        mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
+            @Override
+            public void onSuccess() {
+                // WiFiDirectBroadcastReceiver notifies us. Ignore for now.
+                System.out.println("Successfully connected to a peer.");
+            }
+
+            @Override
+            public void onFailure(int reason) {
+                System.out.println("Connect failed. Retry.");
+            }
+        });
+    }
 }
