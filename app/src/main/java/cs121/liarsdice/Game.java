@@ -1,5 +1,7 @@
 package cs121.liarsdice;
 
+import android.support.v4.util.Pair;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -12,6 +14,8 @@ public class Game implements Serializable{
     private ArrayList<Player> players; //will use this arrayList starting from index 1
     private int currentTurn;
     private int nextTurn;
+    public Pair<Integer,Integer> currentBid;
+
     private int[] totalSums; //sums[] but for the whole game. will use this to check bluffs
 
     public Game(int nPlayers, ArrayList<Player> p){

@@ -130,7 +130,7 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
     }
 
     void ConnectToPeer(){
-        /*
+
         // Picking the first device found on the network.
         WifiP2pDevice device = receiver.peers.get(0);
 
@@ -153,7 +153,7 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
                         Toast.LENGTH_SHORT).show();
             }
         });
-        */
+
     }
 
 

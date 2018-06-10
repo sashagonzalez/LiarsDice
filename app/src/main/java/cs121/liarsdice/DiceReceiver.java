@@ -55,10 +55,12 @@ public class DiceReceiver extends BroadcastReceiver {
     private PeerListListener peerListListener = new PeerListListener() {
         @Override
         public void onPeersAvailable(WifiP2pDeviceList peerList) {
+            System.out.println("how many peers:" + peerList.getDeviceList().size()); //new
 
             List<WifiP2pDevice> refreshedPeers = new ArrayList<WifiP2pDevice>(peerList.getDeviceList());
 
             if (!refreshedPeers.equals(peers)) {
+                Log.d("Dice Reciever","this was called");
                 peers.clear();
                 peers.addAll(refreshedPeers);
 
