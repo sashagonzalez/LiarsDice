@@ -4,6 +4,7 @@ import android.net.wifi.WpsInfo;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pManager;
+import android.net.wifi.p2p.nsd.WifiP2pDnsSdServiceInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,12 +12,15 @@ import android.widget.TextView;
 import android.content.IntentFilter;
 import android.net.wifi.p2p.WifiP2pManager.Channel;
 import android.net.wifi.p2p.WifiP2pManager.ActionListener;
+import android.net.wifi.p2p.WifiP2pManager.DnsSdTxtRecordListener;
 import android.widget.Toast;
 import android.content.Context;
 
 
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LobbyActivity extends AppCompatActivity implements Serializable {
 
@@ -127,33 +131,55 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
         });
     }
 
-    void ConnectToPeer(){
-        /*
-        // Picking the first device found on the network.
-        WifiP2pDevice device = receiver.peers.get(0);
+    // Move this to game activity later to send messages to other phones
+    // Curplayer will call this method to send data to everyone else
+    private void startRegistration() {
+        //  Create a string map containing information about your service.
+        Map record = new HashMap();
+        // Sample messages, adjust later
+        record.put("callBid", "true");
+        record.put("curBid", "three two's");
+        record.put("curPlayer", "1");
 
-        WifiP2pConfig config = new WifiP2pConfig();
-        config.deviceAddress = device.deviceAddress;
-        config.wps.setup = WpsInfo.PBC;
+        // Service information.  Pass it an instance name, service type
+        // _protocol._transportlayer , and the map containing
+        // information other devices will want once they connect to this one.
+        WifiP2pDnsSdServiceInfo serviceInfo =
+                WifiP2pDnsSdServiceInfo.newInstance("_test", "_presence._tcp", record);
 
-
-        myWifi.connect(myChannel, config, new ActionListener() {
+        // Add the local service, sending the service info, network channel,
+        // and listener that will be used to indicate success or failure of
+        // the request.
+        myWifi.addLocalService(myChannel, serviceInfo, new ActionListener() {
             @Override
             public void onSuccess() {
-                // WiFiDirectBroadcastReceiver notifies us. Ignore for now.
-                Toast.makeText(LobbyActivity.this, "Successfully connected to a peer. You should be gook.",
-                        Toast.LENGTH_SHORT).show();
+                // Command successful! Code isn't necessarily needed here,
+                // Unless you want to update the UI or add logging statements.
             }
 
             @Override
-            public void onFailure(int reason) {
-                Toast.makeText(LobbyActivity.this, "Connect failed. Retry.",
-                        Toast.LENGTH_SHORT).show();
+            public void onFailure(int arg0) {
+                // Command failed.  Check for P2P_UNSUPPORTED, ERROR, or BUSY
             }
         });
-        */
     }
 
+    // Move this to game activity later to receive messages to other phones
+    final HashMap<String, String> messages = new HashMap<String, String>();
 
+    private void discoverService() {
+        DnsSdTxtRecordListener txtListener = new DnsSdTxtRecordListener() {
+            @Override
+            /* Callback includes:
+             * fullDomain: full domain name: e.g "printer._ipp._tcp.local."
+             * record: TXT record dta as a map of key/value pairs.
+             * device: The device running the advertised service.
+             */
+
+            public void onDnsSdTxtRecordAvailable(String fullDomain, Map record, WifiP2pDevice device) {
+                messages.put(device.deviceAddress, (String) record.get("curPlayer"));
+            }
+        };
+    }
 
 }

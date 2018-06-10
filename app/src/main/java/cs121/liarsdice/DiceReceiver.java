@@ -58,7 +58,6 @@ public class DiceReceiver extends BroadcastReceiver {
         @Override
         public void onPeersAvailable(WifiP2pDeviceList peerList) {
 
-            System.out.println(peerList.getDeviceList().size());
             List<WifiP2pDevice> refreshedPeers = new ArrayList<WifiP2pDevice>(peerList.getDeviceList());
 
             if (!refreshedPeers.equals(peers)) {
@@ -72,10 +71,9 @@ public class DiceReceiver extends BroadcastReceiver {
 
                 // Perform any other updates needed based on the new list of
                 // peers connected to the Wi-Fi P2P network.
+                if(peers.size() > 0)
+                    ConnectToPeer();
             }
-
-            if(peers.size() > 0)
-                ConnectToPeer();
 
             System.out.println("Made it to checkpoint.");
         }
