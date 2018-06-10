@@ -11,30 +11,36 @@ import java.util.ArrayList;
 public class Game implements Serializable{
 
     private int numPlayers;
-    private ArrayList<Player> players; //will use this arrayList starting from index 1
+    private ArrayList<Player> players; //will use this arrayList starting from index 0
     private int currentTurn;
     private int nextTurn;
-    public Pair<Integer,Integer> currentBid;
+    private int lastTurn;
+    public int bidNumber;
+    public int bidFace;
 
     private int[] totalSums; //sums[] but for the whole game. will use this to check bluffs
 
     public Game(int nPlayers, ArrayList<Player> p){
         numPlayers = nPlayers;
-        currentTurn = 1;
-        nextTurn = 2;
+        currentTurn = 0;
+        nextTurn = 1;
+        lastTurn = nPlayers - 1;
         players = p;
+        bidNumber = 0;
+        bidFace = 0;
     }
 
 
     public void incrementTurn(){
         currentTurn = (currentTurn +1)%numPlayers;
         nextTurn = (currentTurn +1)%numPlayers;
+        lastTurn = (lastTurn +1)%numPlayers;
     }
 
 
     //this function deletes players by name, meaning that no two players may have the same name
     public Boolean deletePlayerByName(String s){
-        for(int i = 1;i<numPlayers+1;i++)
+        for(int i = 0;i<numPlayers;i++)
         {
             if(players.get(i).getName().equals(s) )
             {
@@ -70,7 +76,7 @@ public class Game implements Serializable{
             totalSums[j]=0;
         } //sets everything to 0
 
-        for (int i=1;i<numPlayers+1;i++){
+        for (int i=0;i<numPlayers;i++){
             int[] individualSum = players.get(i).getSums();
             for (int k=1;k<7;k++){
                 totalSums[individualSum[k]]++;
@@ -78,9 +84,23 @@ public class Game implements Serializable{
         }//gets the sums for all players
     }
 
+    public void rollAllDice(){
+        for(int i = 0; i<numPlayers; i++){
+            players.get(i).rollDice();
+        }
+    }
+
     public void setCurrentTurn(int t){
         currentTurn = t%numPlayers;
         nextTurn = (t+1)%numPlayers;
+    }
+
+    public Boolean isBidTrue(){
+        return getTotalSums()[bidFace] >= bidNumber;
+    }
+
+    public void playerLoseLife(int index){
+        players.get(index).loseLife();
     }
 
     //getters
@@ -92,12 +112,16 @@ public class Game implements Serializable{
         return players;
     }
 
-    public int getNextTurn() {
+    public int getNextTurnInt() {
         return nextTurn;
     }
 
     public int getCurrentTurnInt() {
         return currentTurn;
+    }
+
+    public int getLastTurnInt(){
+        return lastTurn;
     }
 
     public String getCurrentTurnString(){
@@ -115,11 +139,13 @@ public class Game implements Serializable{
     public int getNumDie()
     {
         int numDie = 0;
-        for(int i =1; i<numPlayers+1;i++ ){
+        for(int i =0; i<numPlayers;i++ ){
             numDie+= players.get(i).getNumLives();
         }
         return numDie;
     }
+
+
 
 
 }
