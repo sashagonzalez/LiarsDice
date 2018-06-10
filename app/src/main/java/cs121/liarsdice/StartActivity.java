@@ -34,7 +34,11 @@ public class StartActivity extends AppCompatActivity implements Serializable
                 Player Paul = new Player("Paul");
                 Player Steve = new Player("Steve");
                 Player Kratos = new Player("Kratos");
-                ArrayList<Player> testPlayers = new ArrayList<Player>(3);
+                ArrayList<Player> testPlayers = new ArrayList<Player>(4);
+                testPlayers.add(null);
+                testPlayers.add(Paul);
+                testPlayers.add(Steve);
+                testPlayers.add(Kratos);
                 Game testGame = new Game(3, testPlayers);
                 Intent i = new Intent(StartActivity.this, TestGameActivity.class);
                 i.putExtra("testGame", testGame);

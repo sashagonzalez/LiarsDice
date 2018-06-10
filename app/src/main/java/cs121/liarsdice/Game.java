@@ -30,7 +30,7 @@ public class Game implements Serializable{
 
     //this function deletes players by name, meaning that no two players may have the same name
     public Boolean deletePlayerByName(String s){
-        for(int i = 0;i<numPlayers;i++)
+        for(int i = 1;i<numPlayers+1;i++)
         {
             if(players.get(i).getName().equals(s) )
             {
@@ -66,7 +66,7 @@ public class Game implements Serializable{
             totalSums[j]=0;
         } //sets everything to 0
 
-        for (int i=0;i<numPlayers;i++){
+        for (int i=1;i<numPlayers+1;i++){
             int[] individualSum = players.get(i).getSums();
             for (int k=1;k<7;k++){
                 totalSums[individualSum[k]]++;
@@ -92,12 +92,29 @@ public class Game implements Serializable{
         return nextTurn;
     }
 
-    public int getCurrentTurn() {
+    public int getCurrentTurnInt() {
         return currentTurn;
+    }
+
+    public String getCurrentTurnString(){
+        return players.get(currentTurn).getName();
+    }
+
+    public String getNextTurnString(){
+        return players.get(nextTurn).getName();
     }
 
     public int[] getTotalSums() {
         return totalSums;
+    }
+
+    public int getNumDie()
+    {
+        int numDie = 0;
+        for(int i =1; i<numPlayers+1;i++ ){
+            numDie+= players.get(i).getNumLives();
+        }
+        return numDie;
     }
 
 

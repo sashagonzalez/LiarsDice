@@ -15,7 +15,7 @@
         android:layout_alignParentTop="true">
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/testCurrentBidText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -30,14 +30,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignStart="@+id/textView8"
+            android:layout_alignStart="@+id/testCurrentBidText"
             android:layout_marginBottom="148dp"
             android:text="Your Bid: "
             android:textColor="@color/textRed"
             android:textSize="30dp" />
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/testBidText1"
             android:layout_width="62dp"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/textView9"
@@ -48,11 +48,11 @@
             android:inputType="number" />
 
         <EditText
-            android:id="@+id/editText3"
+            android:id="@+id/testBidText2"
             android:layout_width="69dp"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/textView9"
-            android:layout_toEndOf="@+id/editText"
+            android:layout_toEndOf="@+id/testBidText1"
             android:ems="10"
             android:textColor="@color/textRed"
             android:textSize="30dp"
@@ -63,13 +63,13 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_alignTop="@+id/textView9"
-            android:layout_toEndOf="@+id/editText3"
+            android:layout_toEndOf="@+id/testBidText2"
             android:textColor="@color/textRed"
             android:textSize="30dp"
             android:text="'s" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/testBidButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/textView9"
@@ -78,15 +78,15 @@
             android:text="Bid" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/testBluffButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/button"
+            android:layout_alignTop="@+id/testBidButton"
             android:layout_toEndOf="@+id/textView9"
             android:text="Call Bluff" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/testRollButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -101,34 +101,34 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/testPlayersText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Players: 1"
+                android:text="Players:"
                 android:textColor="#FFFFFF"
                 android:textSize="20dp" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/testTotDieText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Die in Game: 5"
+                android:text="Die in Game:"
                 android:textColor="#FFFFFF"
                 android:textSize="20dp" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/testCurTurnText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Player's Turn: Sasha"
+                android:text="Player's Turn:"
                 android:textColor="#FFFFFF"
                 android:textSize="20dp" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/testNextTurnText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Next Player: Sasha"
+                android:text="Next Player:"
                 android:textColor="#FFFFFF"
                 android:textSize="20dp" />
 
