@@ -25,7 +25,7 @@
             android:name=".GameActivity"
             android:label="LiarsDice" />
         <activity android:name=".StartActivity">
-            <intent-filter>
+        <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -34,6 +34,7 @@
         <activity android:name=".LobbyActivity" />
         <activity android:name=".TestGameActivity">
         </activity>
+        <activity android:name=".RuleActivity"/>
     </application>
 
 </manifest>

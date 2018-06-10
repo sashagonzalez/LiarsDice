@@ -15,12 +15,15 @@ import android.view.View;
 public class StartActivity extends AppCompatActivity implements Serializable
 {
     Button testGameBtn;
+    Button ruleBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         testGameBtn = (Button)findViewById(R.id.testBtn);
+        setOnClicks();
+        ruleBtn = (Button)findViewById(R.id.rulesBtn);
         setOnClicks();
     }
 
@@ -46,6 +49,13 @@ public class StartActivity extends AppCompatActivity implements Serializable
                 }
                 });
 
+        ruleBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent i = new Intent (StartActivity.this, RuleActivity.class);
+                startActivity(i);
+            }
+        });
 
         // Make Lobby Button
         Button make = (Button) findViewById(R.id.createLobbyBtn);

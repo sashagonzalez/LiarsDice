@@ -1,5 +1,6 @@
 package cs121.liarsdice;
 
+import android.content.Intent;
 import android.net.wifi.WpsInfo;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
@@ -33,8 +34,6 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
 
-        startBtn = (Button) findViewById(R.id.startbtn);
-        startBtn.setOnClickListener(this);
 
 
         isHost = (boolean) getIntent().getBooleanExtra("isHost", false);
