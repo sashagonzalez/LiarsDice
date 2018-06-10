@@ -24,7 +24,13 @@ public class StartActivity extends AppCompatActivity implements Serializable
         testGameBtn = (Button)findViewById(R.id.testBtn);
         setOnClicks();
         ruleBtn = (Button)findViewById(R.id.rulesBtn);
-        setOnClicks();
+        ruleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(StartActivity.this, RuleActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
 
@@ -48,13 +54,6 @@ public class StartActivity extends AppCompatActivity implements Serializable
                 }
                 });
 
-        ruleBtn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Intent i = new Intent (StartActivity.this, RuleActivity.class);
-                startActivity(i);
-            }
-        });
 
         // Make Lobby Button
         Button make = (Button) findViewById(R.id.createLobbyBtn);

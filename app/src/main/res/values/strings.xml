@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Liar\'s Dice</string>
+    <string name="rules"><u>Rules</u></string>
 </resources>

@@ -12,10 +12,18 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:text="Rules:"
+        android:text="@string/rules"
         android:textSize="55sp"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp"></TextView>
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="match_parent"
+        android:layout_height="492dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ruleSec"
+        android:text="" />
 
 
 </RelativeLayout>

@@ -34,8 +34,6 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
 
-
-
         isHost = (boolean) getIntent().getBooleanExtra("isHost", false);
 
         // Indicates a change in the Wi-Fi P2P status.
@@ -71,9 +69,7 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
                         Toast.LENGTH_SHORT).show();
         }
     }
-    public void onClick(View v) {
 
-    }
     @Override
     public void onResume(){
         super.onResume();
