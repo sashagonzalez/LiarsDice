@@ -121,8 +121,6 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
                 // No services have actually been discovered yet, so this method
                 // can often be left blank. Code for peer discovery goes in the
                 // onReceive method, detailed below.
-
-                ConnectToPeer();
             }
 
             @Override
@@ -137,7 +135,7 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
     }
 
     void ConnectToPeer(){
-        /*
+
         // Picking the first device found on the network.
         WifiP2pDevice device = receiver.peers.get(0);
 
@@ -160,7 +158,7 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
                         Toast.LENGTH_SHORT).show();
             }
         });
-        */
+
     }
 
 

@@ -21,7 +21,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="143dp"
-            android:text="Current Bid:3 Fives's"
+            android:text="Current Bid: No bid"
             android:textColor="@color/textRed"
             android:textSize="30dp" />
 

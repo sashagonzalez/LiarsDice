@@ -35,6 +35,7 @@
         <activity android:name=".TestGameActivity">
         </activity>
         <activity android:name=".RuleActivity"/>
+        <activity android:name=".DiceActivity"/>
     </application>
 
 </manifest>
