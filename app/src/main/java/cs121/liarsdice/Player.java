@@ -41,6 +41,7 @@ public class Player implements Serializable {
         numLives--;
         dice.remove(numLives);
         dice.trimToSize();
+
         return numLives;
     }
 

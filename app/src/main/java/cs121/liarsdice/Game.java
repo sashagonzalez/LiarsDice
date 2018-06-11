@@ -28,6 +28,7 @@ public class Game implements Serializable{
         players = p;
         bidNumber = 0;
         bidFace = 0;
+        totalSums = new int[7];
     }
 
 
@@ -38,7 +39,7 @@ public class Game implements Serializable{
     }
 
 
-    //this function deletes players by name, meaning that no two players may have the same name
+    /*//this function deletes players by name, meaning that no two players may have the same name
     public Boolean deletePlayerByName(String s){
         for(int i = 0;i<numPlayers;i++)
         {
@@ -58,7 +59,7 @@ public class Game implements Serializable{
             }
         }
         return false;
-    }
+    } */
 
 
     public Boolean deletePlayerByIndex(int index){
@@ -79,7 +80,7 @@ public class Game implements Serializable{
         for (int i=0;i<numPlayers;i++){
             int[] individualSum = players.get(i).getSums();
             for (int k=1;k<7;k++){
-                totalSums[individualSum[k]]++;
+                totalSums[individualSum[k]] += individualSum[k];
             }
         }//gets the sums for all players
     }
@@ -88,12 +89,13 @@ public class Game implements Serializable{
         for(int i = 0; i<numPlayers; i++){
             players.get(i).rollDice();
         }
+        setSums();
     }
 
-    public void setCurrentTurn(int t){
+    /*public void setCurrentTurn(int t){
         currentTurn = t%numPlayers;
         nextTurn = (t+1)%numPlayers;
-    }
+    } */
 
     public Boolean isBidTrue(){
         return getTotalSums()[bidFace] >= bidNumber;
@@ -101,6 +103,14 @@ public class Game implements Serializable{
 
     public void playerLoseLife(int index){
         players.get(index).loseLife();
+        if (players.get(index).getNumLives()==0){
+            if( index == players.size() -1 ){
+                incrementTurn();
+                deletePlayerByIndex(index); //if player who died is last, turn is now at 0
+            }
+            deletePlayerByIndex(index); //else we dont actually need to increment the turn
+        }
+        incrementTurn();
     }
 
     //getters

@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
 
 import java.io.Serializable;
 
@@ -22,8 +21,12 @@ public class TestGameActivity extends AppCompatActivity implements Serializable 
     TextView currentBidText;
     Button bidButton;
     Button bluffButton;
+    Button rollButton;
     EditText testBidText1;
     EditText testBidText2;
+    Boolean canClickBluff;
+    Boolean canClickRoll;
+    Boolean canClickBid;
 
     Game testGame;
     @Override
@@ -34,6 +37,9 @@ public class TestGameActivity extends AppCompatActivity implements Serializable 
         initViews();
         initOnClicks();
         setFirstText();
+        canClickBid = false;
+        canClickBluff = false;
+        canClickRoll = true;
 
     }
 
@@ -57,8 +63,12 @@ public class TestGameActivity extends AppCompatActivity implements Serializable 
         currentTurnText.setText("Player's Turn: " + testGame.getCurrentTurnString());
         nextTurnText.setText("Next Player: " + testGame.getNextTurnString());
 
-        currentBidText.setText("Current Bid: " + testGame.bidNumber + " " +
-                testGame.bidFace + "'s");
+        if(testGame.bidFace==0 || testGame.bidNumber == 0){
+            currentBidText.setText("Current Bid: No Bid");
+        } else {
+            currentBidText.setText("Current Bid: " + testGame.bidNumber + " " +
+                    testGame.bidFace + "'s");
+        }
 
 
     }
@@ -73,6 +83,7 @@ public class TestGameActivity extends AppCompatActivity implements Serializable 
 
         bidButton = findViewById(R.id.testBidButton);
         bluffButton = findViewById(R.id.testBluffButton);
+        rollButton = findViewById(R.id.testRollButton);
         testBidText1 = findViewById(R.id.testBidText1);
         testBidText2 = findViewById(R.id.testBidText2);
 
@@ -80,37 +91,89 @@ public class TestGameActivity extends AppCompatActivity implements Serializable 
 
     void initOnClicks(){
 
+        bluffButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (canClickBluff) {
+
+
+                    if (testGame.isBidTrue()) {
+                        testGame.playerLoseLife(testGame.getCurrentTurnInt());
+
+
+                    } else {
+                        testGame.playerLoseLife(testGame.getLastTurnInt());
+
+                    }
+                    if(testGame.getNumPlayers() == 1){
+                        //testGame.getPlayers().get(0) is the winner
+                    }
+                    canClickBid = false;
+                    canClickBluff = false;
+                    canClickRoll = true;
+                    testGame.bidNumber=0;
+                    testGame.bidNumber=0;
+                    setTextDuringGame();
+
+                } else {
+                    if(canClickRoll){
+                        Toast t =Toast.makeText(TestGameActivity.this,"you must roll then bid",Toast.LENGTH_SHORT);
+                        t.show();
+                    } else {
+                        Toast t =Toast.makeText(TestGameActivity.this,"you must bid",Toast.LENGTH_SHORT);
+                        t.show();
+                    }
+
+                }
+            }
+        });
+
+        rollButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (canClickRoll)
+                {
+                    testGame.rollAllDice();
+                    canClickBid = true;
+                    canClickBluff = false;
+                    canClickRoll = false;
+                } else {
+                    Toast t =Toast.makeText(TestGameActivity.this,
+                            "you must either bid or call a bluff",Toast.LENGTH_SHORT);
+                    t.show();
+                }
+            }
+        });
+
         bidButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                if(canClickBid) {
 
-                int one = Integer.parseInt(testBidText1.getText().toString());
-                int two = Integer.parseInt(testBidText2.getText().toString());
-                if(one > testGame.bidNumber || two > testGame.bidFace ){
-                    testGame.bidNumber = one;
-                    testGame.bidFace = two;//this becomes the new bid
-                    testGame.incrementTurn();
-                    testGame.rollAllDice();
-                    setTextDuringGame();
+
+                    int one = Integer.parseInt(testBidText1.getText().toString());
+                    int two = Integer.parseInt(testBidText2.getText().toString());
+                    if (one > testGame.bidNumber || two > testGame.bidFace) {
+                        testGame.bidNumber = one;
+                        testGame.bidFace = two;//this becomes the new bid
+                        testGame.incrementTurn();
+                        setTextDuringGame();
+                        canClickBid = true;
+                        canClickBluff = true;
+                    } else {
+                        Toast t = Toast.makeText(TestGameActivity.this, "enter a correct bid", Toast.LENGTH_SHORT);
+                        t.show();
+                    }
                 } else {
-                    Toast t =Toast.makeText(TestGameActivity.this,"enter a correct bid",Toast.LENGTH_SHORT);
+                    Toast t =Toast.makeText(TestGameActivity.this,"you must roll then bid",Toast.LENGTH_SHORT);
                     t.show();
                 }
 
             }
         });
 
-        bluffButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                    if (testGame.isBidTrue()){
-                        testGame.playerLoseLife(testGame.getCurrentTurnInt());
-                    } else {
-                        testGame.playerLoseLife(testGame.getLastTurnInt());
-                    }
-            }
-        });
+
 
 
     }
