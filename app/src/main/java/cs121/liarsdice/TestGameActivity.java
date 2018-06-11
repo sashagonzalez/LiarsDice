@@ -1,17 +1,21 @@
 package cs121.liarsdice;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class TestGameActivity extends AppCompatActivity implements Serializable {
     TextView playerText;
@@ -27,6 +31,13 @@ public class TestGameActivity extends AppCompatActivity implements Serializable 
     Boolean canClickBluff;
     Boolean canClickRoll;
     Boolean canClickBid;
+    LinearLayout testDiceLayout;
+    ArrayList<ImageView> diceViews = new ArrayList<>(5);
+    ImageView testDieView1;
+    ImageView testDieView2;
+    ImageView testDieView3;
+    ImageView testDieView4;
+    ImageView testDieView5;
 
     Game testGame;
     @Override
@@ -37,6 +48,7 @@ public class TestGameActivity extends AppCompatActivity implements Serializable 
         initViews();
         initOnClicks();
         setFirstText();
+        displayDiceEmpty();
         canClickBid = false;
         canClickBluff = false;
         canClickRoll = true;
@@ -70,17 +82,34 @@ public class TestGameActivity extends AppCompatActivity implements Serializable 
                     testGame.bidFace + "'s");
         }
 
+        displayDice();
+
 
     }
 
     void initViews()
     {
+        //dice
+        testDiceLayout = findViewById(R.id.testDiceLayout);
+        testDieView1 = findViewById(R.id.testDieView1);
+        testDieView2 = findViewById(R.id.testDieView2);
+        testDieView3 = findViewById(R.id.testDieView3);
+        testDieView4 = findViewById(R.id.testDieView4);
+        testDieView5 = findViewById(R.id.testDieView5);
+        diceViews.add(testDieView1);
+        diceViews.add(testDieView2);
+        diceViews.add(testDieView3);
+        diceViews.add(testDieView4);
+        diceViews.add(testDieView5);
+
+        //text in top left corner
         playerText = findViewById(R.id.testPlayersText);
         totalDieText = findViewById(R.id.testTotDieText);
         currentTurnText = findViewById(R.id.testCurTurnText);
         nextTurnText = findViewById(R.id.testNextTurnText);
         currentBidText = findViewById(R.id.testCurrentBidText);
 
+        //text in middle of screen
         bidButton = findViewById(R.id.testBidButton);
         bluffButton = findViewById(R.id.testBluffButton);
         rollButton = findViewById(R.id.testRollButton);
@@ -134,6 +163,7 @@ public class TestGameActivity extends AppCompatActivity implements Serializable 
                 if (canClickRoll)
                 {
                     testGame.rollAllDice();
+                    displayDice();
                     canClickBid = true;
                     canClickBluff = false;
                     canClickRoll = false;
@@ -172,10 +202,24 @@ public class TestGameActivity extends AppCompatActivity implements Serializable 
 
             }
         });
+    }
+
+    void displayDiceEmpty(){
+        for(int j = 0; j<5;j++){
+            diceViews.get(j).setImageResource(0);
+        }
+    }
 
 
-
-
+    void displayDice(){
+        for(int j = 0; j<5;j++){
+            diceViews.get(j).setImageResource(0);
+        }
+        ArrayList<Die> playersDice = testGame.getPlayers().get(testGame.getCurrentTurnInt()).getDice();
+        for (int i = 0;i<playersDice.size();i++){
+            diceViews.get(i).setImageResource(this.getResources().getIdentifier(
+                    "die"+playersDice.get(i).getValue(),"drawable",getPackageName()));
+        }
     }
 
 
