@@ -8,6 +8,35 @@
     android:background="@color/backgroundGreen">
 
     <RelativeLayout
+        android:id="@+id/bluffTextLayout"
+        android:layout_width="221dp"
+        android:layout_height="119dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="27dp"
+        android:alpha="0"
+        android:background="#FFFFFF">
+
+        <ImageButton
+            android:id="@+id/closeBluffLayoutButton"
+            android:layout_width="33dp"
+            android:layout_height="35dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:background="#FFFFFF"
+            android:scaleType="fitXY"
+            android:src="@drawable/cancel_button" />
+
+        <TextView
+            android:id="@+id/bluffTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text=""
+            android:textColor="#000000"/>
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/frame"
         android:layout_width="match_parent"
         android:layout_height="400dp"

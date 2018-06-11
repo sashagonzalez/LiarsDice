@@ -1,15 +1,14 @@
 package cs121.liarsdice;
 
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,8 +37,11 @@ public class TestGameActivity extends AppCompatActivity implements Serializable 
     ImageView testDieView3;
     ImageView testDieView4;
     ImageView testDieView5;
-
+    RelativeLayout bluffTextLayout;
+    TextView bluffTextView;
+    ImageButton closeBluffLayoutButton;
     Game testGame;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,9 +118,21 @@ public class TestGameActivity extends AppCompatActivity implements Serializable 
         testBidText1 = findViewById(R.id.testBidText1);
         testBidText2 = findViewById(R.id.testBidText2);
 
+        //when someone calls bluff
+        bluffTextLayout = findViewById(R.id.bluffTextLayout);
+        bluffTextView = findViewById(R.id.bluffTextView);
+        closeBluffLayoutButton = findViewById(R.id.closeBluffLayoutButton);
+
     }
 
     void initOnClicks(){
+
+        closeBluffLayoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bluffTextLayout.setAlpha(0);
+            }
+        });
 
         bluffButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,11 +142,17 @@ public class TestGameActivity extends AppCompatActivity implements Serializable 
 
                     if (testGame.isBidTrue()) {
                         testGame.playerLoseLife(testGame.getCurrentTurnInt());
-
+                        bluffTextLayout.setAlpha(1);
+                        bluffTextLayout.bringToFront();
+                        bluffTextView.setText("Bid was correct! There are "
+                                + testGame.getTotalSums()[testGame.bidFace] + " " + testGame.bidFace + "'s!");
 
                     } else {
                         testGame.playerLoseLife(testGame.getLastTurnInt());
-
+                        bluffTextLayout.setAlpha(1);
+                        bluffTextLayout.bringToFront();
+                        bluffTextView.setText("Bid was incorrect! There are "
+                                + testGame.getTotalSums()[testGame.bidFace] + " " + testGame.bidFace + "'s!");
                     }
                     if(testGame.getNumPlayers() == 1){
                         //testGame.getPlayers().get(0) is the winner
