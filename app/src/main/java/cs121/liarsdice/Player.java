@@ -29,9 +29,11 @@ public class Player implements Serializable {
         for (int i=0; i < numLives; i++){
             dice.get(i).roll();
         } //randomizes all dice
+
         for (int j = 1; j<7;j++){
             sums[j]=0;
         }//sets all values in sums[] to 0
+
         for (int i=0; i< numLives;i++){
             sums[dice.get(i).getValue()]++;
         }//creates sums[]

@@ -1,6 +1,7 @@
 package cs121.liarsdice;
 
 import android.support.v4.util.Pair;
+import android.util.Log;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -77,10 +78,12 @@ public class Game implements Serializable{
             totalSums[j]=0;
         } //sets everything to 0
 
-        for (int i=0;i<numPlayers;i++){
+        for (int i=0;i<numPlayers;i++)
+        {
             int[] individualSum = players.get(i).getSums();
-            for (int k=1;k<7;k++){
-                totalSums[individualSum[k]] += individualSum[k];
+            for (int k=1;k<7;k++)
+            {
+                totalSums[k] += individualSum[k];
             }
         }//gets the sums for all players
     }
@@ -90,6 +93,13 @@ public class Game implements Serializable{
             players.get(i).rollDice();
         }
         setSums();
+        Log.d("game","checking totalSums");
+        for (int i = 1; i < totalSums.length; i++) {
+            if (i > 1) {
+                Log.d("game",", ");
+            }
+            Log.d("game",""+totalSums[i]);
+        }
     }
 
     /*public void setCurrentTurn(int t){
@@ -98,7 +108,7 @@ public class Game implements Serializable{
     } */
 
     public Boolean isBidTrue(){
-        return getTotalSums()[bidFace] >= bidNumber;
+        return totalSums[bidFace] >= bidNumber;
     }
 
     public void playerLoseLife(int index){
