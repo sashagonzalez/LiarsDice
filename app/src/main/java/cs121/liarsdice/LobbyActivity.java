@@ -1,5 +1,6 @@
 package cs121.liarsdice;
 
+import android.content.Intent;
 import android.net.wifi.WpsInfo;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
@@ -7,6 +8,7 @@ import android.net.wifi.p2p.WifiP2pManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.content.IntentFilter;
 import android.net.wifi.p2p.WifiP2pManager.Channel;
@@ -25,6 +27,7 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
     Channel myChannel; // Use to connect to P2P framework
     DiceReceiver receiver;
     boolean isHost;
+    Button startBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
