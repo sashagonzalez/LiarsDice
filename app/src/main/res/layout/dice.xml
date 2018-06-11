@@ -11,7 +11,7 @@
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/button"
+        android:layout_alignTop="@+id/testBidButton"
         android:layout_toEndOf="@+id/textView9"
         android:text="Shuffle Dice" />
 

@@ -18,8 +18,8 @@ public class Player implements Serializable {
         for (int j = 1; j<7;j++){
             sums[j]=0;
         }
-        dice = new ArrayList<Die>(5);
-        for (int i = 0; i<dice.size(); i++){
+        dice = new ArrayList<>(5);
+        for (int i = 0; i<5; i++){
             Die d = new Die();
             dice.add(d);
         }
@@ -29,10 +29,12 @@ public class Player implements Serializable {
         for (int i=0; i < numLives; i++){
             dice.get(i).roll();
         } //randomizes all dice
+
         for (int j = 1; j<7;j++){
             sums[j]=0;
         }//sets all values in sums[] to 0
-        for (int i=0; i< dice.size();i++){
+
+        for (int i=0; i< numLives;i++){
             sums[dice.get(i).getValue()]++;
         }//creates sums[]
     }
@@ -41,6 +43,7 @@ public class Player implements Serializable {
         numLives--;
         dice.remove(numLives);
         dice.trimToSize();
+
         return numLives;
     }
 

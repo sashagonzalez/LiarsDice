@@ -96,7 +96,6 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
             @Override
             public void onClick(View v) {
                 System.out.println(receiver.peers.size());
-                   startRegistration();
            //     sendData();
             }
         });
@@ -109,7 +108,6 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
           //      System.out.println(receiver.peers.size());
                 //   startRegistration();
           //      catchData();
-                discoverService();
             }
         });
 
@@ -155,7 +153,6 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
             }
         });
     }
-
 
     // Move this to game activity later to send messages to other phones
     // Curplayer will call this method to send data to everyone else
