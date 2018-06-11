@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundGreen"
     tools:context=".RuleActivity">
 
     <TextView
@@ -13,17 +12,39 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:text="@string/rules"
-        android:textSize="55sp"
+        android:textSize="40sp"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp"></TextView>
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="match_parent"
-        android:layout_height="492dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/ruleSec"
-        android:text="" />
+        android:text="You can only bid a higher number of dice of any face, a high number of dice of the same face, or the same number of dice with a higher face value. "
+
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="180dp"
+        android:text="You can only call a bluff on the previous bidder. If the previous bid was false then the previous bidder loses a dice. If the previous bid was true then the challenger loses a dice."
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="match_parent"
+        android:layout_height="79dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="150dp"
+        android:text="You lose the game when you run out of dices."
+        android:textSize="20sp"/>
 
 
 </RelativeLayout>

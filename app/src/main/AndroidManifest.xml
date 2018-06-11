@@ -34,8 +34,7 @@
         <activity android:name=".LobbyActivity" />
         <activity android:name=".TestGameActivity">
         </activity>
-        <activity android:name=".RuleActivity"/>
-        <activity android:name=".DiceActivity"/>
+        <activity android:name=".RuleActivity" android:theme="@style/AppTheme.Popuptheme"/>
     </application>
 
 </manifest>
