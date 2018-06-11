@@ -10,6 +10,8 @@ import android.net.wifi.p2p.WifiP2pManager.PeerListListener;
 import android.content.Intent;
 import android.content.Context;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 import android.net.wifi.WpsInfo;
 
@@ -22,14 +24,19 @@ public class DiceReceiver extends BroadcastReceiver {
     private Channel mChannel;
     private LobbyActivity mActivity;
 
+    private ListView mList;
+    private ArrayAdapter mArray;
+
     public List<WifiP2pDevice> peers = new ArrayList<WifiP2pDevice>();
 
     public DiceReceiver(WifiP2pManager manager, Channel channel,
-                                       LobbyActivity activity) {
+                                       LobbyActivity activity, ListView list, ArrayAdapter array) {
         super();
         this.mManager = manager;
         this.mChannel = channel;
         this.mActivity = activity;
+        this.mList = list;
+        this.mArray = array;
     }
 
     @Override
@@ -64,11 +71,6 @@ public class DiceReceiver extends BroadcastReceiver {
                 peers.clear();
                 peers.addAll(refreshedPeers);
 
-                // If an AdapterView is backed by this data, notify it
-                // of the change. For instance, if you have a ListView of
-                // available peers, trigger an update.
-            //    ((WiFiPeerListAdapter) getListAdapter()).notifyDataSetChanged();
-
                 // Perform any other updates needed based on the new list of
                 // peers connected to the Wi-Fi P2P network.
                 if(peers.size() > 0)
@@ -81,9 +83,8 @@ public class DiceReceiver extends BroadcastReceiver {
 
 
     void ConnectToPeer() {
-
         // Picking the first device found on the network.
-        WifiP2pDevice device = peers.get(0);
+        final WifiP2pDevice device = peers.get(0);
 
         WifiP2pConfig config = new WifiP2pConfig();
         config.deviceAddress = device.deviceAddress;
@@ -93,7 +94,14 @@ public class DiceReceiver extends BroadcastReceiver {
             @Override
             public void onSuccess() {
                 // WiFiDirectBroadcastReceiver notifies us. Ignore for now.
-                System.out.println("Successfully connected to a peer.");
+                System.out.println("Successfully connected to a peer." + device.deviceName + peers.size());
+
+                // Make an array of items to show on the listView
+                for(int i = 0; i < peers.size(); i++){
+                    mArray.add(peers.get(i).deviceName);
+                }
+                mList.setAdapter(null);
+                mList.setAdapter(mArray);
             }
 
             @Override

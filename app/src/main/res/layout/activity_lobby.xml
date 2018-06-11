@@ -17,4 +17,30 @@
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/myList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/sendMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="send"
+        app:layout_constraintBottom_toBottomOf="@+id/myList"
+        tools:layout_editor_absoluteX="61dp" />
+
+    <Button
+        android:id="@+id/getMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:text="get"
+        app:layout_constraintBottom_toBottomOf="@+id/myList"
+        app:layout_constraintEnd_toEndOf="@+id/myList" />
 </android.support.constraint.ConstraintLayout>

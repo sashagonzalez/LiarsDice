@@ -1,24 +1,39 @@
 package cs121.liarsdice;
 
+import android.content.ContentResolver;
+import android.net.Uri;
 import android.net.wifi.WpsInfo;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.net.wifi.p2p.nsd.WifiP2pDnsSdServiceInfo;
+import android.net.wifi.p2p.nsd.WifiP2pDnsSdServiceRequest;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.content.IntentFilter;
 import android.net.wifi.p2p.WifiP2pManager.Channel;
 import android.net.wifi.p2p.WifiP2pManager.ActionListener;
 import android.net.wifi.p2p.WifiP2pManager.DnsSdTxtRecordListener;
+import android.net.wifi.p2p.WifiP2pManager.DnsSdServiceResponseListener;
 import android.widget.Toast;
 import android.content.Context;
 
 
-
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.io.Serializable;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,11 +44,17 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
     Channel myChannel; // Use to connect to P2P framework
     DiceReceiver receiver;
     boolean isHost;
+    ListView myList;
+    ArrayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
+
+        myList = (ListView) findViewById(R.id.myList);
+        // Show the list view with the each list item an element from listItems
+        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1);
 
         isHost = (boolean) getIntent().getBooleanExtra("isHost", false);
 
@@ -50,12 +71,12 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
         myWifi = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
         try {
             myChannel = myWifi.initialize(this, getMainLooper(), null);
-            receiver = new DiceReceiver(myWifi, myChannel, this);
+            receiver = new DiceReceiver(myWifi, myChannel, this, myList, adapter);
             t.setVisibility(View.INVISIBLE);
 
-            if(isHost)
-                MakeLobby();
-            else
+         //   if(isHost)
+           //     MakeLobby();
+         //   else
                 JoinLobby();
         }
         catch(Exception e) {
@@ -69,6 +90,29 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
                 Toast.makeText(LobbyActivity.this, "Not Host",
                         Toast.LENGTH_SHORT).show();
         }
+
+        Button make = (Button) findViewById(R.id.sendMsg);
+        make.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println(receiver.peers.size());
+                   startRegistration();
+           //     sendData();
+            }
+        });
+
+
+        Button get = (Button) findViewById(R.id.getMsg);
+        get.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+          //      System.out.println(receiver.peers.size());
+                //   startRegistration();
+          //      catchData();
+                discoverService();
+            }
+        });
+
     }
 
     @Override
@@ -76,7 +120,7 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
         super.onResume();
 
         // Register the broadcast receiver
-        receiver = new DiceReceiver(myWifi, myChannel, this);
+        receiver = new DiceReceiver(myWifi, myChannel, this, myList, adapter);
         registerReceiver(receiver, intentFilter);
     }
 
@@ -88,27 +132,8 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
         unregisterReceiver(receiver);
     }
 
-    void MakeLobby(){
-
-        myWifi.createGroup(myChannel, new WifiP2pManager.ActionListener() {
-
-            @Override
-            public void onSuccess() {
-                // Device is ready to accept incoming connections from peers.
-                Toast.makeText(LobbyActivity.this, "Connection has been set up.",
-                        Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(int reason) {
-                Toast.makeText(LobbyActivity.this, "P2P group creation failed. Retry.",
-                        Toast.LENGTH_SHORT).show();
-            }
-
-        });
-    }
-
     void JoinLobby(){
+
         // Start finding peers
         myWifi.discoverPeers(myChannel, new WifiP2pManager.ActionListener() {
 
@@ -131,6 +156,7 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
         });
     }
 
+
     // Move this to game activity later to send messages to other phones
     // Curplayer will call this method to send data to everyone else
     private void startRegistration() {
@@ -139,7 +165,7 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
         // Sample messages, adjust later
         record.put("callBid", "true");
         record.put("curBid", "three two's");
-        record.put("curPlayer", "1");
+        record.put("curPlayer", "Dustin");
 
         // Service information.  Pass it an instance name, service type
         // _protocol._transportlayer , and the map containing
@@ -155,11 +181,15 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
             public void onSuccess() {
                 // Command successful! Code isn't necessarily needed here,
                 // Unless you want to update the UI or add logging statements.
+                Toast.makeText(LobbyActivity.this, "Added service successfully.",
+                        Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(int arg0) {
                 // Command failed.  Check for P2P_UNSUPPORTED, ERROR, or BUSY
+                Toast.makeText(LobbyActivity.this, "Fail to add service.",
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -167,19 +197,65 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
     // Move this to game activity later to receive messages to other phones
     final HashMap<String, String> messages = new HashMap<String, String>();
 
+    // Call method to look for services/messages from other devices
     private void discoverService() {
         DnsSdTxtRecordListener txtListener = new DnsSdTxtRecordListener() {
-            @Override
-            /* Callback includes:
-             * fullDomain: full domain name: e.g "printer._ipp._tcp.local."
-             * record: TXT record dta as a map of key/value pairs.
-             * device: The device running the advertised service.
-             */
+
 
             public void onDnsSdTxtRecordAvailable(String fullDomain, Map record, WifiP2pDevice device) {
-                messages.put(device.deviceAddress, (String) record.get("curPlayer"));
+                messages.put(device.deviceAddress, (String) record.get("curBid"));
+                System.out.println("bacon" + (String) record.get("curBid"));
             }
         };
+
+        DnsSdServiceResponseListener servListener = new DnsSdServiceResponseListener() {
+            @Override
+            public void onDnsSdServiceAvailable(String instanceName, String registrationType,
+                                                WifiP2pDevice resourceType) {
+                // Update the device name with the human-friendly version from
+                // the DnsTxtRecord, assuming one arrived.
+                resourceType.deviceName = messages
+                        .containsKey(resourceType.deviceAddress) ? messages
+                        .get(resourceType.deviceAddress) : resourceType.deviceName;
+            }
+        };
+
+        myWifi.setDnsSdResponseListeners(myChannel, servListener, txtListener);
+
+        WifiP2pDnsSdServiceRequest serviceRequest = WifiP2pDnsSdServiceRequest.newInstance();
+        myWifi.addServiceRequest(myChannel,
+                serviceRequest,
+                new ActionListener() {
+                    @Override
+                    public void onSuccess() {
+                        System.out.println("yes1");
+                    }
+
+                    @Override
+                    public void onFailure(int code) {
+                        System.out.println("no1");
+                    }
+                });
+
+        myWifi.discoverServices(myChannel, new ActionListener() {
+
+                    @Override
+                    public void onSuccess() {
+                        System.out.println("size" + messages.size() + messages.get("curPlayer"));
+
+                        for (Map.Entry<String,String> entry : messages.entrySet()) {
+                            String key = entry.getKey();
+                            String value = entry.getValue();
+                            System.out.println(key + " " + value);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int code) {
+                        System.out.println("no2");
+                    }
+        });
     }
+
 
 }
