@@ -35,7 +35,7 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
     IntentFilter intentFilter = new IntentFilter();
  //   WifiP2pManager myWifi;
  //   Channel myChannel; // Use to connect to P2P framework
-    DiceReceiver receiver;
+   // DiceReceiver receiver;
     boolean isHost;
     ListView myList;
     ArrayAdapter adapter;
@@ -64,7 +64,7 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
         DiceWifi.myWifi = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
         try {
             DiceWifi.myChannel = DiceWifi.myWifi.initialize(this, getMainLooper(), null);
-            receiver = new DiceReceiver(DiceWifi.myWifi, DiceWifi.myChannel, this, myList, adapter);
+            DiceWifi.receiver = new DiceReceiver(DiceWifi.myWifi, DiceWifi.myChannel, this, myList, adapter);
             t.setVisibility(View.INVISIBLE);
 
             //   if(isHost)
@@ -125,8 +125,8 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
         super.onResume();
 
         // Register the broadcast receiver
-        receiver = new DiceReceiver(DiceWifi.myWifi, DiceWifi.myChannel, this, myList, adapter);
-        registerReceiver(receiver, intentFilter);
+        DiceWifi.receiver = new DiceReceiver(DiceWifi.myWifi, DiceWifi.myChannel, this, myList, adapter);
+        registerReceiver(DiceWifi.receiver, intentFilter);
     }
 
     @Override
@@ -134,7 +134,7 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
         super.onPause();
 
         // Unregister the broadcast receiver
-        unregisterReceiver(receiver);
+        unregisterReceiver(DiceWifi.receiver);
     }
 
     void JoinLobby(){

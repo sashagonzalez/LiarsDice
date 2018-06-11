@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +19,8 @@ public class GameActivity extends AppCompatActivity implements Serializable {
 
 //    WifiP2pManager myWifi;
   //  WifiP2pManager.Channel myChannel;
+
+    Game test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,13 @@ public class GameActivity extends AppCompatActivity implements Serializable {
                 discoverService();
             }
         });
+
+        Player Paul = new Player("Paul");
+        Player Steve = new Player("Steve");
+        ArrayList<Player> testPlayers = new ArrayList<Player>(3);
+        testPlayers.add(Paul);
+        testPlayers.add(Steve);
+        test = new Game(DiceWifi.receiver.peers.size(), testPlayers);
 
     }
 
