@@ -74,10 +74,10 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
             receiver = new DiceReceiver(myWifi, myChannel, this, myList, adapter);
             t.setVisibility(View.INVISIBLE);
 
-         //   if(isHost)
-           //     MakeLobby();
-         //   else
-                JoinLobby();
+            //   if(isHost)
+            //     MakeLobby();
+            //   else
+            JoinLobby();
         }
         catch(Exception e) {
             // Wifi direct wasn't enabled(and cannot be enabled by emulators)
@@ -96,7 +96,8 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
             @Override
             public void onClick(View v) {
                 System.out.println(receiver.peers.size());
-           //     sendData();
+                startRegistration();
+                //     sendData();
             }
         });
 
@@ -105,9 +106,10 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
         get.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-          //      System.out.println(receiver.peers.size());
+                //      System.out.println(receiver.peers.size());
                 //   startRegistration();
-          //      catchData();
+                //      catchData();
+                discoverService();
             }
         });
 
@@ -153,6 +155,7 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
             }
         });
     }
+
 
     // Move this to game activity later to send messages to other phones
     // Curplayer will call this method to send data to everyone else
@@ -236,21 +239,21 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
 
         myWifi.discoverServices(myChannel, new ActionListener() {
 
-                    @Override
-                    public void onSuccess() {
-                        System.out.println("size" + messages.size() + messages.get("curPlayer"));
+            @Override
+            public void onSuccess() {
+                System.out.println("size" + messages.size() + messages.get("curPlayer"));
 
-                        for (Map.Entry<String,String> entry : messages.entrySet()) {
-                            String key = entry.getKey();
-                            String value = entry.getValue();
-                            System.out.println(key + " " + value);
-                        }
-                    }
+                for (Map.Entry<String,String> entry : messages.entrySet()) {
+                    String key = entry.getKey();
+                    String value = entry.getValue();
+                    System.out.println(key + " " + value);
+                }
+            }
 
-                    @Override
-                    public void onFailure(int code) {
-                        System.out.println("no2");
-                    }
+            @Override
+            public void onFailure(int code) {
+                System.out.println("no2");
+            }
         });
     }
 
