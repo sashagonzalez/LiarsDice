@@ -1,6 +1,7 @@
 package cs121.liarsdice;
 
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.net.Uri;
 import android.net.wifi.WpsInfo;
 import android.net.wifi.p2p.WifiP2pConfig;
@@ -25,23 +26,15 @@ import android.net.wifi.p2p.WifiP2pManager.DnsSdServiceResponseListener;
 import android.widget.Toast;
 import android.content.Context;
 
-
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.io.Serializable;
-import java.net.InetSocketAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
 public class LobbyActivity extends AppCompatActivity implements Serializable {
 
     IntentFilter intentFilter = new IntentFilter();
-    WifiP2pManager myWifi;
-    Channel myChannel; // Use to connect to P2P framework
+ //   WifiP2pManager myWifi;
+ //   Channel myChannel; // Use to connect to P2P framework
     DiceReceiver receiver;
     boolean isHost;
     ListView myList;
@@ -68,10 +61,10 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
         intentFilter.addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION);
 
         TextView t = findViewById(R.id.textView4);
-        myWifi = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
+        DiceWifi.myWifi = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
         try {
-            myChannel = myWifi.initialize(this, getMainLooper(), null);
-            receiver = new DiceReceiver(myWifi, myChannel, this, myList, adapter);
+            DiceWifi.myChannel = DiceWifi.myWifi.initialize(this, getMainLooper(), null);
+            receiver = new DiceReceiver(DiceWifi.myWifi, DiceWifi.myChannel, this, myList, adapter);
             t.setVisibility(View.INVISIBLE);
 
             //   if(isHost)
@@ -91,6 +84,7 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
                         Toast.LENGTH_SHORT).show();
         }
 
+        /*
         Button make = (Button) findViewById(R.id.sendMsg);
         make.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,7 +106,18 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
                 discoverService();
             }
         });
+*/
 
+        Button start = (Button) findViewById(R.id.startGame);
+        start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(LobbyActivity.this, GameActivity.class);
+           //     i.putExtra("wifi", (Serializable) myWifi);
+             //   i.putExtra("channel", (Serializable) myChannel);
+                startActivity(i);
+            }
+        });
     }
 
     @Override
@@ -120,7 +125,7 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
         super.onResume();
 
         // Register the broadcast receiver
-        receiver = new DiceReceiver(myWifi, myChannel, this, myList, adapter);
+        receiver = new DiceReceiver(DiceWifi.myWifi, DiceWifi.myChannel, this, myList, adapter);
         registerReceiver(receiver, intentFilter);
     }
 
@@ -135,7 +140,7 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
     void JoinLobby(){
 
         // Start finding peers
-        myWifi.discoverPeers(myChannel, new WifiP2pManager.ActionListener() {
+        DiceWifi.myWifi.discoverPeers(DiceWifi.myChannel, new WifiP2pManager.ActionListener() {
 
             @Override
             public void onSuccess() {
@@ -155,107 +160,5 @@ public class LobbyActivity extends AppCompatActivity implements Serializable {
             }
         });
     }
-
-
-    // Move this to game activity later to send messages to other phones
-    // Curplayer will call this method to send data to everyone else
-    private void startRegistration() {
-        //  Create a string map containing information about your service.
-        Map record = new HashMap();
-        // Sample messages, adjust later
-        record.put("callBid", "true");
-        record.put("curBid", "three two's");
-        record.put("curPlayer", "Dustin");
-
-        // Service information.  Pass it an instance name, service type
-        // _protocol._transportlayer , and the map containing
-        // information other devices will want once they connect to this one.
-        WifiP2pDnsSdServiceInfo serviceInfo =
-                WifiP2pDnsSdServiceInfo.newInstance("_test", "_presence._tcp", record);
-
-        // Add the local service, sending the service info, network channel,
-        // and listener that will be used to indicate success or failure of
-        // the request.
-        myWifi.addLocalService(myChannel, serviceInfo, new ActionListener() {
-            @Override
-            public void onSuccess() {
-                // Command successful! Code isn't necessarily needed here,
-                // Unless you want to update the UI or add logging statements.
-                Toast.makeText(LobbyActivity.this, "Added service successfully.",
-                        Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(int arg0) {
-                // Command failed.  Check for P2P_UNSUPPORTED, ERROR, or BUSY
-                Toast.makeText(LobbyActivity.this, "Fail to add service.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    // Move this to game activity later to receive messages to other phones
-    final HashMap<String, String> messages = new HashMap<String, String>();
-
-    // Call method to look for services/messages from other devices
-    private void discoverService() {
-        DnsSdTxtRecordListener txtListener = new DnsSdTxtRecordListener() {
-
-
-            public void onDnsSdTxtRecordAvailable(String fullDomain, Map record, WifiP2pDevice device) {
-                messages.put(device.deviceAddress, (String) record.get("curBid"));
-                System.out.println("bacon" + (String) record.get("curBid"));
-            }
-        };
-
-        DnsSdServiceResponseListener servListener = new DnsSdServiceResponseListener() {
-            @Override
-            public void onDnsSdServiceAvailable(String instanceName, String registrationType,
-                                                WifiP2pDevice resourceType) {
-                // Update the device name with the human-friendly version from
-                // the DnsTxtRecord, assuming one arrived.
-                resourceType.deviceName = messages
-                        .containsKey(resourceType.deviceAddress) ? messages
-                        .get(resourceType.deviceAddress) : resourceType.deviceName;
-            }
-        };
-
-        myWifi.setDnsSdResponseListeners(myChannel, servListener, txtListener);
-
-        WifiP2pDnsSdServiceRequest serviceRequest = WifiP2pDnsSdServiceRequest.newInstance();
-        myWifi.addServiceRequest(myChannel,
-                serviceRequest,
-                new ActionListener() {
-                    @Override
-                    public void onSuccess() {
-                        System.out.println("yes1");
-                    }
-
-                    @Override
-                    public void onFailure(int code) {
-                        System.out.println("no1");
-                    }
-                });
-
-        myWifi.discoverServices(myChannel, new ActionListener() {
-
-            @Override
-            public void onSuccess() {
-                System.out.println("size" + messages.size() + messages.get("curPlayer"));
-
-                for (Map.Entry<String,String> entry : messages.entrySet()) {
-                    String key = entry.getKey();
-                    String value = entry.getValue();
-                    System.out.println(key + " " + value);
-                }
-            }
-
-            @Override
-            public void onFailure(int code) {
-                System.out.println("no2");
-            }
-        });
-    }
-
 
 }
