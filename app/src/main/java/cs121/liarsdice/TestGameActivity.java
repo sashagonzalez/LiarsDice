@@ -154,23 +154,24 @@ public class TestGameActivity extends AppCompatActivity implements Serializable 
                         bluffTextView.setText("Bid was incorrect! There are "
                                 + testGame.getTotalSums()[testGame.bidFace] + " " + testGame.bidFace + "'s!");
                     }
-                    if(testGame.getNumPlayers() == 1){
-                        //testGame.getPlayers().get(0) is the winner
-                        canClickBid = false;
-                        canClickBluff = false;
-                        canClickRoll = true;
-                        String winner = testGame.getPlayers().get(0).getName();
-                        bluffTextLayout.setAlpha(1);
-                        bluffTextLayout.bringToFront();
-                        bluffTextView.setText(winner + " wins!");
 
-                    }
                     canClickBid = false;
                     canClickBluff = false;
                     canClickRoll = true;
                     testGame.bidNumber=0;
                     testGame.bidNumber=0;
                     setTextDuringGame();
+                    if(testGame.getNumPlayers() == 1){
+                        //testGame.getPlayers().get(0) is the winner
+                        canClickBid = false;
+                        canClickBluff = false;
+                        canClickRoll = false;
+                        String winner = testGame.getPlayers().get(0).getName();
+                        bluffTextLayout.setAlpha(1);
+                        bluffTextLayout.bringToFront();
+                        bluffTextView.setText(winner + " wins!");
+
+                    }
 
                 } else {
                     if(canClickRoll){

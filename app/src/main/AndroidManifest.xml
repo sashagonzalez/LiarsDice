@@ -31,7 +31,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LobbyActivity" />
         <activity android:name=".TestGameActivity">
         </activity>
         <activity android:name=".RuleActivity" android:theme="@style/AppTheme.Popuptheme"/>
