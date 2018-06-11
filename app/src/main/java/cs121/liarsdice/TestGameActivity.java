@@ -156,6 +156,14 @@ public class TestGameActivity extends AppCompatActivity implements Serializable 
                     }
                     if(testGame.getNumPlayers() == 1){
                         //testGame.getPlayers().get(0) is the winner
+                        canClickBid = false;
+                        canClickBluff = false;
+                        canClickRoll = true;
+                        String winner = testGame.getPlayers().get(0).getName();
+                        bluffTextLayout.setAlpha(1);
+                        bluffTextLayout.bringToFront();
+                        bluffTextView.setText(winner + " wins!");
+
                     }
                     canClickBid = false;
                     canClickBluff = false;
