@@ -124,7 +124,7 @@ public class Game implements Serializable{
             deletePlayerByIndex(index); //else we dont actually need to increment the turn
             totalTurns++;
         }
-
+        incrementTurn();
     }
 
     //getters

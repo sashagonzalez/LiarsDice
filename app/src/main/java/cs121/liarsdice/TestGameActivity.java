@@ -146,7 +146,8 @@ public class TestGameActivity extends AppCompatActivity implements Serializable 
         bluffButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (canClickBluff) {
+                if (canClickBluff)
+                {
 
 
                     if (testGame.isBidTrue()) {
@@ -169,8 +170,6 @@ public class TestGameActivity extends AppCompatActivity implements Serializable 
                     canClickRoll = true;
                     testGame.bidNumber=0;
                     testGame.bidNumber=0;
-                    setTextDuringGame();
-                    displayDiceEmpty();
                     if(testGame.getNumPlayers() == 1){
                         //testGame.getPlayers().get(0) is the winner
                         canClickBid = false;
@@ -182,6 +181,8 @@ public class TestGameActivity extends AppCompatActivity implements Serializable 
                         bluffTextView.setText(winner + " wins!");
 
                     }
+                    setTextDuringGame();
+                    displayDiceEmpty();
 
                 } else {
                     if(canClickRoll){
