@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class Game implements Serializable{
 
     private int numPlayers;
+    private int totalTurns;
     private ArrayList<Player> players; //will use this arrayList starting from index 0
     private int currentTurn;
     private int nextTurn;
@@ -24,6 +25,7 @@ public class Game implements Serializable{
     public Game(int nPlayers, ArrayList<Player> p){
         numPlayers = nPlayers;
         currentTurn = 0;
+        totalTurns = 0;
         nextTurn = 1;
         lastTurn = nPlayers - 1;
         players = p;
@@ -37,6 +39,7 @@ public class Game implements Serializable{
         currentTurn = (currentTurn +1)%numPlayers;
         nextTurn = (currentTurn +1)%numPlayers;
         lastTurn = (lastTurn +1)%numPlayers;
+        totalTurns++;
     }
 
 
@@ -119,8 +122,9 @@ public class Game implements Serializable{
                 deletePlayerByIndex(index); //if player who died is last, turn is now at 0
             }
             deletePlayerByIndex(index); //else we dont actually need to increment the turn
+            totalTurns++;
         }
-        incrementTurn();
+
     }
 
     //getters
@@ -164,6 +168,8 @@ public class Game implements Serializable{
         }
         return numDie;
     }
+
+    public int getTotalTurns(){return totalTurns;}
 
 
 

@@ -55,7 +55,7 @@ public class StartActivity extends AppCompatActivity implements Serializable
                 });
 
 
-        /*// Make Lobby Button
+
         Button make = (Button) findViewById(R.id.createLobbyBtn);
         make.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +76,7 @@ public class StartActivity extends AppCompatActivity implements Serializable
                 startActivity(i);
                     }
                 });
-                */
+
         }
 }
 

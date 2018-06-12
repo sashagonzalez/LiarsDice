@@ -10,6 +10,8 @@ import android.net.wifi.p2p.WifiP2pManager.PeerListListener;
 import android.content.Intent;
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -28,6 +30,7 @@ public class DiceReceiver extends BroadcastReceiver {
     private ArrayAdapter mArray;
 
     public List<WifiP2pDevice> peers = new ArrayList<WifiP2pDevice>();
+    public List<WifiP2pDevice> bannedPeers = new ArrayList<WifiP2pDevice>();
 
     public DiceReceiver(WifiP2pManager manager, Channel channel,
                         LobbyActivity activity, ListView list, ArrayAdapter array) {
@@ -58,6 +61,8 @@ public class DiceReceiver extends BroadcastReceiver {
         }
         else if (WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION.equals(action)) {
             // Respond to this device's wifi state changing
+            WifiP2pDevice device = intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_DEVICE);
+            DiceWifi.myName = device.deviceName;
         }
     }
 
@@ -98,12 +103,36 @@ public class DiceReceiver extends BroadcastReceiver {
                 // WiFiDirectBroadcastReceiver notifies us. Ignore for now.
                 System.out.println("Successfully connected to a peer." + device.deviceName + peers.size());
 
+                for(int i = 0; i < bannedPeers.size(); i++) {
+                    if(peers.contains(bannedPeers.get(i)))
+                        peers.remove(bannedPeers.get(i));
+                }
+
                 // Make an array of items to show on the listView
+                mArray.clear();
                 for(int i = 0; i < peers.size(); i++){
                     mArray.add(peers.get(i).deviceName);
                 }
                 mList.setAdapter(null);
                 mList.setAdapter(mArray);
+                mList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+                        bannedPeers.add(peers.get(position));
+
+                        for(int i = 0; i < bannedPeers.size(); i++) {
+                            if(peers.contains(bannedPeers.get(i)))
+                                peers.remove(bannedPeers.get(i));
+                        }
+                        // Make an array of items to show on the listView
+                        mArray.clear();
+                        for(int i = 0; i < peers.size(); i++){
+                            mArray.add(peers.get(i).deviceName);
+                        }
+                        mList.setAdapter(null);
+                        mList.setAdapter(mArray);
+                    }
+                });
             }
 
             @Override

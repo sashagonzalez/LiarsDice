@@ -7,6 +7,7 @@ public class DiceWifi extends Application {
     public static WifiP2pManager myWifi;
     public static WifiP2pManager.Channel myChannel; // Use to connect to P2P framework
     public static DiceReceiver receiver;
+    public static String myName;
     /*
     public WifiP2pManager getWifi (){
         return this.myWifi;
