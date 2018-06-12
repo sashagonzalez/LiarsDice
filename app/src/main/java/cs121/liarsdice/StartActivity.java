@@ -14,14 +14,15 @@ import android.view.View;
 
 public class StartActivity extends AppCompatActivity implements Serializable
 {
-    Button testGameBtn;
+    //Button testGameBtn;
     Button ruleBtn;
+    Button createGameBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        testGameBtn = (Button)findViewById(R.id.testBtn);
+        createGameBtn = (Button)findViewById(R.id.createGameBtn);
         setOnClicks();
         ruleBtn = (Button)findViewById(R.id.rulesBtn);
         ruleBtn.setOnClickListener(new View.OnClickListener() {
@@ -37,34 +38,19 @@ public class StartActivity extends AppCompatActivity implements Serializable
 
     void setOnClicks()
     {
-        testGameBtn.setOnClickListener(new View.OnClickListener() {
+        createGameBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Player Paul = new Player("Paul");
-                Player Steve = new Player("Steve");
-                Player Kratos = new Player("Kratos");
-                ArrayList<Player> testPlayers = new ArrayList<Player>(3);
-                testPlayers.add(Paul);
-                testPlayers.add(Steve);
-                testPlayers.add(Kratos);
-                Game testGame = new Game(3, testPlayers);
-                Intent i = new Intent(StartActivity.this, TestGameActivity.class);
-                i.putExtra("testGame", testGame);
+                Intent i = new Intent(StartActivity.this, CreateGameActivity.class);
                 startActivity(i);
                 }
                 });
 
 
 
-        Button make = (Button) findViewById(R.id.createLobbyBtn);
-        make.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(StartActivity.this, LobbyActivity.class);
-                i.putExtra("isHost", true);
-                startActivity(i);
-                    }
-                });
+
+
+
 
         // Join Lobby Button
         Button join = (Button) findViewById(R.id.searchLobbyBtn);

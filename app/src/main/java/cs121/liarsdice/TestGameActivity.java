@@ -41,6 +41,7 @@ public class TestGameActivity extends AppCompatActivity implements Serializable 
     TextView bluffTextView;
     ImageButton closeBluffLayoutButton;
     Game testGame;
+    Button testShowDiceBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +118,7 @@ public class TestGameActivity extends AppCompatActivity implements Serializable 
         rollButton = findViewById(R.id.testRollButton);
         testBidText1 = findViewById(R.id.testBidText1);
         testBidText2 = findViewById(R.id.testBidText2);
+        testShowDiceBtn = findViewById(R.id.testShowDiceBtn);
 
         //when someone calls bluff
         bluffTextLayout = findViewById(R.id.bluffTextLayout);
@@ -126,6 +128,13 @@ public class TestGameActivity extends AppCompatActivity implements Serializable 
     }
 
     void initOnClicks(){
+
+        testShowDiceBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                displayDice();
+            }
+        });
 
         closeBluffLayoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,6 +170,7 @@ public class TestGameActivity extends AppCompatActivity implements Serializable 
                     testGame.bidNumber=0;
                     testGame.bidNumber=0;
                     setTextDuringGame();
+                    displayDiceEmpty();
                     if(testGame.getNumPlayers() == 1){
                         //testGame.getPlayers().get(0) is the winner
                         canClickBid = false;
@@ -220,6 +230,7 @@ public class TestGameActivity extends AppCompatActivity implements Serializable 
                         setTextDuringGame();
                         canClickBid = true;
                         canClickBluff = true;
+                        displayDiceEmpty();
                     } else {
                         Toast t = Toast.makeText(TestGameActivity.this, "enter a correct bid", Toast.LENGTH_SHORT);
                         t.show();

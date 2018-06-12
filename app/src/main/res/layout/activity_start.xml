@@ -8,18 +8,10 @@
     tools:context=".StartActivity">
 
     <Button
-        android:id="@+id/createLobbyBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Create Lobby" />
-
-    <Button
         android:id="@+id/searchLobbyBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/createLobbyBtn"
-        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
         android:text="Search Lobby" />
 
     <Button
@@ -43,10 +35,10 @@
         android:textSize="70sp" />
 
     <Button
-        android:id="@+id/testBtn"
+        android:id="@+id/createGameBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/searchLobbyBtn"
         android:layout_centerHorizontal="true"
-        android:text="test game" />
+        android:text="Create Game" />
 </RelativeLayout>

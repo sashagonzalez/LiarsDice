@@ -72,9 +72,9 @@
             android:layout_alignTop="@+id/textView9"
             android:layout_toEndOf="@+id/textView9"
             android:ems="10"
+            android:inputType="number"
             android:textColor="@color/textRed"
-            android:textSize="30dp"
-            android:inputType="number" />
+            android:textSize="30dp" />
 
         <EditText
             android:id="@+id/testBidText2"
@@ -83,9 +83,9 @@
             android:layout_alignTop="@+id/textView9"
             android:layout_toEndOf="@+id/testBidText1"
             android:ems="10"
+            android:inputType="number"
             android:textColor="@color/textRed"
-            android:textSize="30dp"
-            android:inputType="number" />
+            android:textSize="30dp" />
 
         <TextView
             android:id="@+id/textView10"
@@ -93,9 +93,9 @@
             android:layout_height="40dp"
             android:layout_alignTop="@+id/textView9"
             android:layout_toEndOf="@+id/testBidText2"
+            android:text="'s"
             android:textColor="@color/textRed"
-            android:textSize="30dp"
-            android:text="'s" />
+            android:textSize="30dp" />
 
         <Button
             android:id="@+id/testBidButton"
@@ -119,8 +119,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
+            android:layout_toEndOf="@+id/textView9"
             android:text="Roll" />
+
+        <Button
+            android:id="@+id/testShowDiceBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/textView9"
+            android:layout_alignParentBottom="true"
+            android:text="Show Dice" />
 
         <LinearLayout
             android:layout_width="match_parent"
