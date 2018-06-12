@@ -74,6 +74,7 @@ public class GameActivity extends AppCompatActivity implements Serializable {
             @Override
             public void onClick(View v) {
                 discoverService();
+                setTextDuringGame();
             }
         });
 
@@ -118,6 +119,7 @@ public class GameActivity extends AppCompatActivity implements Serializable {
             public void run() {
                 if(myGame.getCurrentTurnString() != DiceWifi.myName) {
            //         discoverService();
+                   // setTextDuringGame();
                 }
 
             }
